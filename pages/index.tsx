@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Home() {
-  const [_text, _setText] = useState('');
-  const [_todo, _setTodo] = useState<Todo[]>([]);
+  // const [text, setText] = useState('');
+  // const [todo, setTodo] = useState<Todo[]>([]);
 
   // const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
 
