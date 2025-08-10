@@ -9,6 +9,7 @@ export default function Home() {
   const fetchTodos = async () => {
     const res = await fetch('/api/todo');
     const data: Todo[] = await res.json();
+    console.log(data);
     setTodos(data);
   }
 
@@ -18,28 +19,38 @@ export default function Home() {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
 
+  const onClickAdd = async () => {
+    await fetch('/api/todo', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ text: text })
+    })
+    fetchTodos();
+    setText('');
+  }
+
   return (
     <>
       <h1>Todoアプリ</h1>
       <div>
         <input placeholder='タスクを入力' value={text} onChange={onChange} />
-        <button>追加</button>
+        <button onClick={onClickAdd}>追加</button>
       </div>
       <div>
         <p>未完了のTodoリスト</p>
         <ul>
-          {todos.map((todo) => {
+          {todos.map((todo, index) => {
             return (
-              <li key={todo.id}>
+              <li key={index}>
                 <p>{todo.text}</p>
+                <Link href={'/'}>
+                  <button>編集</button>
+                </Link>
               </li>
             )
           })}
         </ul>
       </div>
-      <Link href={'/'}>
-        <button>編集</button>
-      </Link>
     </>
   );
 }
