@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Todo } from '../../types/todo';
 
+// eslint-disable-next-line prefer-const
 let todos: Todo[] = [{
   id: 0,
   text: '',
