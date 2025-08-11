@@ -9,12 +9,16 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
-    try {
+    const { id } = req.query;
+    if (!id) {
       const todos = await prisma.todo.findMany();
       res.status(200).json(todos);
-    } catch (error) {
-      console.error("Failed to fetch todos:", error);
-      res.status(500).json({ error: "Failed to fetch todos" });
+    } else {
+      const todoId = Number(id);
+      const todo = await prisma.todo.findUnique({
+        where: { id: todoId }
+      });
+      res.status(200).json(todo);
     }
   } else if (req.method === 'POST') {
     const { text } = req.body;
@@ -34,5 +38,18 @@ export default async function handler(
       }
     });
     res.status(201).end();
+  } else if (req.method === 'PUT') {
+    const { id, text, completed } = req.body;
+    const todoId = Number(id);
+    const todo: Todo = await prisma.todo.update({
+      where: {
+        id: todoId
+      },
+      data: {
+        text: text,
+        completed: completed
+      }
+    });
+    res.status(200).json(todo);
   }
 }
