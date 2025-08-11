@@ -4,17 +4,13 @@ import { PrismaClient } from "../../prisma/generated/prisma";
 
 const prisma = new PrismaClient();
 
-/* eslint-disable */
-let todos: Todo[] = [];
-/* eslint-enable */
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
     try {
-      todos = await prisma.todo.findMany();
+      const todos = await prisma.todo.findMany();
       res.status(200).json(todos);
     } catch (error) {
       console.error("Failed to fetch todos:", error);
@@ -29,5 +25,14 @@ export default async function handler(
       }
     });
     res.status(200).json(newTodo);
+  } else if (req.method === 'DELETE') {
+    const { id } = req.body;
+    const todoId = Number(id);
+    await prisma.todo.delete({
+      where: {
+        id: todoId
+      }
+    });
+    res.status(201).end();
   }
 }
