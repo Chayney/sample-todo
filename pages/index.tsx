@@ -29,6 +29,15 @@ export default function Home() {
     setText('');
   }
 
+  const onClickDelete = async (id: number) => {
+    await fetch('/api/todo', {
+      method: 'DELETE',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ id: id })
+    })
+    fetchTodos();
+  }
+
   return (
     <>
       <h1>Todoアプリ</h1>
@@ -39,13 +48,14 @@ export default function Home() {
       <div>
         <p>未完了のTodoリスト</p>
         <ul>
-          {todos.map((todo, index) => {
+          {todos.map((todo) => {
             return (
-              <li key={index}>
+              <li key={todo.id}>
                 <p>{todo.text}</p>
                 <Link href={'/'}>
                   <button>編集</button>
                 </Link>
+                <button onClick={() => onClickDelete(todo.id)}>削除</button>
               </li>
             )
           })}
