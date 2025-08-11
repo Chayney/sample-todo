@@ -52,7 +52,7 @@ export default function Home() {
             return (
               <li key={todo.id}>
                 <p>{todo.text}</p>
-                <Link href={'/'}>
+                <Link href={`/${todo.id}`}>
                   <button>編集</button>
                 </Link>
                 <button onClick={() => onClickDelete(todo.id)}>削除</button>
