@@ -1,6 +1,7 @@
 import { getCsrfToken, signIn } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
+import Link from "next/link";
 
 type SignInProps = { csrfToken: string | null };
 
@@ -38,6 +39,13 @@ export default function SignIn({ csrfToken }: SignInProps) {
                 <input name="password" type="password" required />
                 <button type="submit">ログイン</button>
             </form>
+            <p>
+                アカウントをお持ちでない方は
+                <Link href="/auth/signin">
+                    <span style={{ marginLeft: "0.5em", color: "blue" }}>こちら</span>
+                </Link>
+                から新規登録できます。
+            </p>
             {error && <p style={{ color: "red" }}>{error}</p>}
         </>
     );
