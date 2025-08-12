@@ -5,11 +5,11 @@ const prisma = new PrismaClient();
 async function main() {
     await prisma.todo.createMany({
         data: [
-            { text: 'Learn Prisma', completed: false },
-            { text: 'Build a TODO app', completed: false },
-            { text: 'Push project to GitHub', completed: true },
-            { text: 'Deploy to Vercel', completed: false },
-            { text: 'Celebrate!', completed: true },
+            { text: 'Learn Prisma', completed: false, userId: 0 },
+            { text: 'Build a TODO app', completed: false, userId: 0 },
+            { text: 'Push project to GitHub', completed: true, userId: 0 },
+            { text: 'Deploy to Vercel', completed: false, userId: 0 },
+            { text: 'Celebrate!', completed: true, userId: 0 },
         ],
     });
 }

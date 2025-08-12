@@ -9,7 +9,8 @@ export default function EditPage() {
     const [todo, setTodo] = useState<Todo>({
         id: 0,
         text: '',
-        completed: false
+        completed: false,
+        userId: 0
     });
 
     const fetchTodo = async () => {
