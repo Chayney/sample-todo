@@ -41,7 +41,7 @@ export default function SignIn({ csrfToken }: SignInProps) {
             </form>
             <p>
                 アカウントをお持ちでない方は
-                <Link href="/auth/signin">
+                <Link href="/auth/signup">
                     <span style={{ marginLeft: "0.5em", color: "blue" }}>こちら</span>
                 </Link>
                 から新規登録できます。
