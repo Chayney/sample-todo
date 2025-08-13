@@ -23,6 +23,13 @@ export default function EditPage() {
 
     useEffect(() => {
         if (!id) return;
+        const fetchTodo = async () => {
+            const res = await fetch(`api/todo?id=${id}`);
+            const data: Todo = await res.json();
+            console.log(data);
+            setTodo(data);
+            setText(data.text);
+        }
         fetchTodo();
     }, [id])
 
