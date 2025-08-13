@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "../../prisma/generated/prisma";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
-import { Todo } from "../../types/todo"; // あれば使用
+import { Todo } from "../../types/todo";
 
 const prisma = new PrismaClient();
 
@@ -73,7 +73,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const updatedTodo = await prisma.todo.update({
       where: { id: todoId },
       data: {
-        text,
+        ...(text !== undefined ? { text } : {}),
         completed,
       },
     });

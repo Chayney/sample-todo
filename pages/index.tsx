@@ -5,19 +5,31 @@ import { Todo } from '../types/todo';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { signOut } from "next-auth/react";
+import styles from '../styles/Todo.module.css';
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const [text, setText] = useState('');
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [incompletedTodos, setIncompletedTodos] = useState<Todo[]>([]);
+  const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
 
-  const fetchTodos = async () => {
+  const fetchIncompletedTodos = async () => {
     const res = await fetch('/api/todo');
     const data: Todo[] = await res.json();
-    setTodos(data);
+    const incompleted = data.filter(target => target.completed === false);
+    setIncompletedTodos(incompleted);
+  };
+
+  const fetchCompletedTodos = async () => {
+    const res = await fetch('/api/todo');
+    const data: Todo[] = await res.json();
+    const completed = data.filter(target => target.completed === true);
+    setCompletedTodos(completed);
   };
 
   useEffect(() => {
-    fetchTodos();
+    fetchIncompletedTodos();
+    fetchCompletedTodos();
   }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value);
@@ -28,7 +40,8 @@ export default function Home() {
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ text })
     });
-    fetchTodos();
+    fetchIncompletedTodos();
+    fetchCompletedTodos();
     setText('');
   };
 
@@ -38,30 +51,73 @@ export default function Home() {
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ id })
     });
-    fetchTodos();
+    fetchIncompletedTodos();
+    fetchCompletedTodos();
   };
+
+  const onClickComplete = async (id: number) => {
+    await fetch('/api/todo', {
+      method: 'PUT',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ id: id, completed: true })
+    });
+    fetchIncompletedTodos();
+    fetchCompletedTodos();
+  }
+
+  const onClickBack = async (id: number) => {
+    await fetch('/api/todo', {
+      method: 'PUT',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ id: id, completed: false })
+    });
+    fetchIncompletedTodos();
+    fetchCompletedTodos();
+  }
 
   return (
     <>
-      <h1>Todoアプリ</h1>
-      <button onClick={() => signOut({ callbackUrl: "/auth/signin" })}>ログアウト</button>
-      <div>
-        <input placeholder="タスクを入力" value={text} onChange={onChange} />
-        <button onClick={onClickAdd}>追加</button>
+      <h1 className={styles.pageTitle}>Todoアプリ</h1>
+      <div className={styles.nameArea}>
+        <p>ようこそ!</p>
+        <button className={styles.button} onClick={() => signOut({ callbackUrl: "/auth/signin" })}>ログアウト</button>
+      </div>
+      <div className={styles.inputArea}>
+        <input className={styles.input} placeholder="タスクを入力" value={text} onChange={onChange} />
+        <button className={styles.button} onClick={onClickAdd}>追加</button>
       </div>
       <div>
-        <p>未完了のTodoリスト</p>
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>
-              <p>{todo.text}</p>
-              <Link href={`/${todo.id}`}>
-                <button>編集</button>
-              </Link>
-              <button onClick={() => onClickDelete(todo.id)}>削除</button>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.incompleteArea}>
+          <p className={styles.title}>未完了のTodoリスト</p>
+          <ul>
+            {incompletedTodos.map((todo) => (
+              <li key={todo.id}>
+                <div className={styles.listRow}>
+                  <p>{todo.text}</p>
+                  <Link href={`/${todo.id}`}>
+                    <button className={styles.button}>編集</button>
+                  </Link>
+                  <button className={styles.button} onClick={() => onClickComplete(todo.id)}>完了</button>
+                  <button className={styles.button} onClick={() => onClickDelete(todo.id)}>削除</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.completeArea}>
+          <p className={styles.title}>完了のTodoリスト</p>
+          <ul>
+            {completedTodos.map((todo) => (
+              <li key={todo.id}>
+                <div className={styles.listRow}>
+                  <p>{todo.text}</p>
+                  <button className={styles.button} onClick={() => onClickBack(todo.id)}>戻す</button>
+                  <button className={styles.button} onClick={() => onClickDelete(todo.id)}>削除</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );
