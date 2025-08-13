@@ -1,0 +1,85 @@
+body {
+    font-family: sans-serif;
+    color: #666;
+}
+
+.pageTitle {
+    text-align: center;
+}
+
+.nameArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3% auto 0 auto;
+    width: 40%;
+}
+
+.input {
+    border-radius: 8px;
+    width: 50%;
+    border: none;
+    padding: 6px 16px;
+}
+
+.button {
+    border-radius: 8px;
+    border: none;
+    padding: 4px 16px;
+    margin: 0px 2px;
+}
+
+.button:hover {
+    background-color: #79a8a9;
+    color: #fff;
+    cursor: pointer;
+}
+
+.title {
+    text-align: center;
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.listRow {
+    display: flex;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.todoItem {
+    margin: 6px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}
+
+.inputArea {
+    background-color: #c6e5d9;
+    width: 40%;
+    height: 3%;
+    padding: 2%;
+    margin: 2% auto;
+    border-radius: 8px;
+}
+
+.incompleteArea {
+    border: 2px solid #aacfd0;
+    width: 40%;
+    height: 3%;
+    padding: 2% 5%;
+    margin: 2% auto;
+    border-radius: 8px;
+}
+
+.completeArea {
+    border: 2px solid #aacfd0;
+    width: 40%;
+    height: 3%;
+    padding: 2%;
+    margin: 2% auto;
+    background-color: #c9dede;
+    border-radius: 8px;
+}
