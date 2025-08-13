@@ -2,6 +2,7 @@ import { getCsrfToken, signIn } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import Link from "next/link";
+import styles from '../../styles/AuthForm.module.css';
 
 type SignInProps = { csrfToken: string | null };
 
@@ -31,22 +32,22 @@ export default function SignIn({ csrfToken }: SignInProps) {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <input name="csrfToken" type="hidden" defaultValue={csrfToken ?? undefined} />
-                <label>Email</label>
-                <input name="email" type="email" required />
-                <label>Password</label>
-                <input name="password" type="password" required />
-                <button type="submit">ログイン</button>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <input name="csrfToken" type="hidden" defaultValue={csrfToken ?? undefined} className={styles.input} />
+                <label className={styles.label}>Email</label>
+                <input name="email" type="email" required className={styles.input} />
+                <label className={styles.label}>Password</label>
+                <input name="password" type="password" required className={styles.input} />
+                <button className={styles.button} type="submit">ログイン</button>
             </form>
-            <p>
+            <p className={styles.link}>
                 アカウントをお持ちでない方は
                 <Link href="/auth/signup">
-                    <span style={{ marginLeft: "0.5em", color: "blue" }}>こちら</span>
+                    <span className={styles.linkText}>こちら</span>
                 </Link>
                 から新規登録できます。
             </p>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className={styles.error}>{error}</p>}
         </>
     );
 }

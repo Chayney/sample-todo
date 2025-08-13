@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import styles from '../../styles/AuthForm.module.css';
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -26,19 +27,19 @@ export default function SignUp() {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <label>Name</label>
-                <input type="name" value={name} onChange={(e) => setName(e.target.value)} />
-                <label>Email</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <label>Password</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button type="submit">登録</button>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <label className={styles.label}>Name</label>
+                <input type="name" value={name} onChange={(e) => setName(e.target.value)} className={styles.input} />
+                <label className={styles.label}>Email</label>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={styles.input} />
+                <label className={styles.label}>Password</label>
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className={styles.input} />
+                <button className={styles.button} type="submit">登録</button>
             </form>
-            <p>
+            <p className={styles.link}>
                 アカウントをお持ちの方は
                 <Link href="/auth/signin">
-                    <span style={{ marginLeft: "0.5em", color: "blue" }}>こちら</span>
+                    <span className={styles.linkText}>こちら</span>
                 </Link>
                 からログインできます。
             </p>
