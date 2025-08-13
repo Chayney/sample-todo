@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { signOut } from "next-auth/react";
 import styles from '../styles/Todo.module.css';
-import { useSession } from "next-auth/react";
 
 export default function Home() {
   const [text, setText] = useState('');
